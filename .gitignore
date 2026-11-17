@@ -1,0 +1,23 @@
+# Python environment
+.venv/
+__pycache__/
+*.pyc
+
+# YOLO model weights
+*.pt
+
+# Video files
+*.mp4
+*.avi
+*.mov
+
+# Generated detection outputs
+runs/
+outputs/
+
+# Flask uploads and generated videos
+static/uploads/
+static/outputs/
+
+# Temporary files
+*.log

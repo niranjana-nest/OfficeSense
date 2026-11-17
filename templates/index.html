@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OfficeSense | Video Analytics</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #101923;
+            color: #eef4f7;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 22px 7%;
+            background: #182633;
+            border-bottom: 1px solid #293d4c;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .brand span {
+            color: #42c6b5;
+        }
+
+        .status {
+            color: #42c6b5;
+            font-size: 13px;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 55px auto;
+            padding: 0 24px;
+        }
+
+        h1 {
+            font-size: 34px;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: #9aabb8;
+            margin-bottom: 35px;
+        }
+
+        .panel {
+            background: #1a2936;
+            border: 1px solid #304454;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 25px;
+        }
+
+        .upload-area {
+            border: 2px dashed #496273;
+            border-radius: 10px;
+            padding: 35px 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        input[type=file] {
+            margin-top: 20px;
+            color: #c8d5dc;
+        }
+
+        button {
+            background: #32a99b;
+            border: none;
+            border-radius: 7px;
+            color: white;
+            padding: 14px 25px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #278d82;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .metric {
+            background: #243746;
+            padding: 22px;
+            border-radius: 9px;
+        }
+
+        .metric h2 {
+            color: #42c6b5;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .metric p {
+            color: #a8b8c3;
+            font-size: 13px;
+        }
+
+        video {
+            display: block;
+            width: 100%;
+            max-height: 480px;
+            border-radius: 8px;
+            margin-top: 18px;
+            background: #000;
+        }
+
+        .video-section {
+            margin-top: 28px;
+        }
+
+        .video-section p {
+            color: #9aabb8;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .download {
+            display: inline-block;
+            margin-top: 20px;
+            background: #243746;
+            color: #42c6b5;
+            padding: 12px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+        }
+
+        .error {
+            background: #512d35;
+            color: #ffd8df;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            color: #718593;
+            padding: 30px;
+            font-size: 12px;
+        }
+
+        @media(max-width: 600px) {
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="brand">Office<span>Sense</span></div>
+    <div class="status">● SYSTEM READY</div>
+</header>
+
+<main>
+
+    <h1>Video Analytics</h1>
+    <p class="subtitle">
+        AI-powered office video analysis and object detection.
+    </p>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <section class="panel">
+        <h3>Upload Video</h3>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            <div class="upload-area">
+                <p>Select an office video to analyse</p>
+                <input
+                    type="file"
+                    name="video"
+                    accept=".mp4,.avi,.mov"
+                    required
+                >
+            </div>
+
+            <button type="submit">
+                Analyse Video
+            </button>
+
+        </form>
+    </section>
+
+    {% if results %}
+
+    <section class="panel">
+
+        <h3>Analysis Results</h3>
+
+        <div class="metrics">
+
+            <div class="metric">
+                <h2>{{ results.people }}</h2>
+                <p>Person detections</p>
+            </div>
+
+            <div class="metric">
+                <h2>{{ results.objects }}</h2>
+                <p>Total object detections</p>
+            </div>
+
+            <div class="metric">
+                <h2>{{ results.frames }}</h2>
+                <p>Frames analysed</p>
+            </div>
+
+        </div>
+
+        <div class="video-section">
+            <h3>Original Video</h3>
+
+            <video controls playsinline preload="metadata">
+                <source src="{{ original_url }}" type="video/mp4">
+                Your browser does not support video playback.
+            </video>
+        </div>
+
+        <div class="video-section">
+            <h3>Annotated Video</h3>
+            <p>YOLO object detection results</p>
+
+            <video controls playsinline preload="metadata">
+                <source src="{{ video_url }}" type="video/mp4">
+                Your browser does not support video playback.
+            </video>
+
+            <a class="download" href="{{ video_url }}" download>
+                Download Annotated Video
+            </a>
+        </div>
+
+    </section>
+
+    {% endif %}
+
+</main>
+
+<footer>
+    OfficeSense · AI Video Analytics
+</footer>
+
+</body>
+</html>
