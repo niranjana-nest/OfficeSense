@@ -3,6 +3,11 @@
 __pycache__/
 *.pyc
 
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
 # YOLO model weights
 *.pt
 
@@ -12,6 +17,7 @@ __pycache__/
 *.mov
 
 # Generated detection outputs
+data/videos/
 runs/
 outputs/
 
@@ -21,3 +27,6 @@ static/outputs/
 
 # Temporary files
 *.log
+
+*.py[cod]
+*.egg-info/

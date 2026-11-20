@@ -1,0 +1,50 @@
+
+services:
+  redis:
+    image: redis:7
+    container_name: officesense-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  producer:
+    build: .
+    container_name: officesense-producer
+    command: python scripts/run_producer.py
+    env_file:
+      - .env
+    environment:
+      REDIS_HOST: redis
+      VIDEO_PATH: data/videos/office_video5.mp4
+      CAMERA_ID: test-camera-01
+      FRAME_STRIDE: "25"
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  consumer:
+    build: .
+    container_name: officesense-consumer
+    command: python scripts/run_consumer.py
+    env_file:
+      - .env
+    environment:
+      REDIS_HOST: redis
+      MODEL_PATH: /app/yolo26n.pt
+      CONFIDENCE: "0.25"
+      MAX_PEOPLE: "5"
+      MIN_DURATION_S: "8"
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - ./yolo26n.pt:/app/yolo26n.pt:ro
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped

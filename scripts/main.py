@@ -4,9 +4,9 @@ from ultralytics import YOLO
 import os
 
 # Configuration
-INPUT_VIDEO = "office_video2.mp4"
-OUTPUT_VIDEO = "annotated_output.mp4"
-MODEL_PATH = "yolo26n.pt"
+INPUT_VIDEO = r"C:/Users/niranjana.balachandr/officesense/data/videos/office_video2.mp4"
+OUTPUT_VIDEO = r"C:/Users/niranjana.balachandr/officesense/outputs/annotated_output.mp4"
+MODEL_PATH = r"C:/Users/niranjana.balachandr/officesense/yolo26n.pt"
 
 CONFIDENCE = 0.25
 IMAGE_SIZE = 960
