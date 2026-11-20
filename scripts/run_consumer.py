@@ -2,20 +2,19 @@ import os
 import uuid
 from datetime import datetime
 
+from officesense.inference.registry import ModelRegistry
 from officesense.ingestion.redis_stream import (
+    acknowledge_frame,
     get_redis_client,
     read_frames,
-    acknowledge_frame
-)
-from officesense.inference.registry import ModelRegistry
-from officesense.storage.database import (
-    create_mongo_client,
-    get_database,
-    save_frame_result,
-    create_ttl_index
 )
 from officesense.rules.crowding import CrowdingRule
-
+from officesense.storage.database import (
+    create_mongo_client,
+    create_ttl_index,
+    get_database,
+    save_frame_result,
+)
 
 MODEL_PATH = os.getenv("MODEL_PATH", "yolo26n.pt")
 CONFIDENCE = float(os.getenv("CONFIDENCE", "0.25"))

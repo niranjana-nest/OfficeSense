@@ -1,6 +1,5 @@
 from officesense.ingestion.video_source import read_video_frames
 
-
 video_path = "data/videos/office_video2.mp4"
 
 frame_count = 0

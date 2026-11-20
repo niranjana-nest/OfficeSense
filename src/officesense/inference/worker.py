@@ -1,11 +1,11 @@
 from datetime import datetime
 
-from officesense.ingestion.video_source import read_video_frames
 from officesense.inference.registry import ModelRegistry
+from officesense.ingestion.video_source import read_video_frames
 from officesense.storage.database import (
     create_mongo_client,
     get_database,
-    save_frame_result
+    save_frame_result,
 )
 
 

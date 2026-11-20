@@ -1,7 +1,8 @@
 
+import os
+
 import cv2
 from ultralytics import YOLO
-import os
 
 # Configuration
 INPUT_VIDEO = r"C:/Users/niranjana.balachandr/officesense/data/videos/office_video2.mp4"

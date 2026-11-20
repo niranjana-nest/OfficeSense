@@ -1,10 +1,7 @@
 import os
 
+from officesense.ingestion.redis_stream import get_redis_client, publish_frame
 from officesense.ingestion.video_source import read_video_frames
-from officesense.ingestion.redis_stream import (
-    get_redis_client,
-    publish_frame
-)
 
 VIDEO_PATH = os.getenv(
     "VIDEO_PATH",

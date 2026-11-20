@@ -1,6 +1,8 @@
 import sys
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
+
+from pymongo.errors import PyMongoError
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
@@ -8,7 +10,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 from officesense.storage.database import (
     create_mongo_client,
     get_database,
-    save_frame_result
+    save_frame_result,
 )
 
 client = None
@@ -40,7 +42,7 @@ try:
     print("Frame result saved successfully!")
     print(f"Document ID: {document_id}")
 
-except Exception as error:
+except (PyMongoError, ValueError) as error:
     print(f"Error: {error}")
 
 finally:

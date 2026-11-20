@@ -1,6 +1,7 @@
-import cv2
 from datetime import datetime, timezone
 from pathlib import Path
+
+import cv2
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
@@ -17,6 +18,7 @@ def read_video_frames(video_path, camera_id, frame_stride=25):
     cap = cv2.VideoCapture(str(video_path))
 
     if not cap.isOpened():
+        cap.release()
         raise RuntimeError(f"Could not open video: {video_path}")
 
     fps = cap.get(cv2.CAP_PROP_FPS)

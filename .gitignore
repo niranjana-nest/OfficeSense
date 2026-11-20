@@ -30,3 +30,9 @@ static/outputs/
 
 *.py[cod]
 *.egg-info/
+
+# Test and lint artifacts
+.coverage
+.pytest_cache/
+.ruff_cache/
+htmlcov/

@@ -1,9 +1,8 @@
 import os
 
-import redis
 import cv2
 import numpy as np
-
+import redis
 
 REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 REDIS_PORT = int(os.getenv("REDIS_PORT", "6379"))
@@ -103,7 +102,7 @@ def read_frames(client, consumer_name):
     while True:
 
         # Recover abandoned messages
-        next_id, pending_messages, deleted_ids = client.xautoclaim(
+        _next_id, pending_messages, _deleted_ids = client.xautoclaim(
             STREAM_NAME,
             GROUP_NAME,
             consumer_name,
